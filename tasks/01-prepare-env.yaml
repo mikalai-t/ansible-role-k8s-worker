@@ -1,0 +1,25 @@
+---
+
+- name: "01.1 - make sure base play directory exists and is world writable"
+  file:
+    path: "{{ __k8s_worker_play_dir }}"
+    state: directory
+    owner: 0
+    group: 0
+    mode: "a=rwX"
+  become: yes
+
+- name: "01.2 - make sure kubernetes directories exist"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "ug=rwX,o-rwx"
+  become: yes
+  loop:
+    - "{{ __k8s_worker_config_dir }}"
+    - "{{ __k8s_worker_pki_dir }}"
+    - "{{ __k8s_worker_manifests_dir }}"
+    - "{{ __k8s_worker_kubernetes_data_dir }}"
+    - "{{ __k8s_worker_kubernetes_socket_dir }}"
+    - "{{ __k8s_worker_kubelet_data_dir }}"
+    - "{{ __k8s_worker_kube_proxy_data_dir }}"

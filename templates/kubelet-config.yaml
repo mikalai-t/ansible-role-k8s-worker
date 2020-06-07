@@ -1,0 +1,21 @@
+#jinja2: lstrip_blocks: True, trim_blocks: True
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    enabled: true
+  x509:
+    clientCAFile: "{{ __k8s_worker_pki_ca_cert_file }}"
+authorization:
+  mode: Webhook
+clusterDomain: "cluster.local"
+clusterDNS:
+  - "{{ k8s_worker_kubernetes_cluster_services_cidr | ipaddr('net') | ipaddr('10') }}"
+podCIDR: "{{ k8s_worker_kubernetes_cluster_pod_cidr }}"
+resolvConf: "/run/systemd/resolve/resolv.conf"
+runtimeRequestTimeout: "15m"
+tlsCertFile: "{{ __k8s_worker_pki_kubelet_cert_file }}"
+tlsPrivateKeyFile: "{{ __k8s_worker_pki_kubelet_key_file }}"

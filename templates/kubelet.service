@@ -1,0 +1,30 @@
+#jinja2: lstrip_blocks: True, trim_blocks: True
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://kubernetes.io/docs/concepts/overview/components/#kubelet
+After=network.target network-online.target containerd.service
+Wants=network-online.target
+Requires=containerd.service
+
+[Service]
+ExecStart={{ __k8s_worker_kubelet_binary }} \
+    --alsologtostderr="true" \
+    --config="{{ __k8s_worker_kubelet_config_file }}" \
+    --container-runtime="remote" \
+    --container-runtime-endpoint="unix:///var/run/containerd/containerd.sock" \
+    --kubeconfig="{{ __k8s_worker_kubelet_kubeconfig_file }}" \
+    --log-file=/var/log/{{ __k8s_worker_kubelet_service }}.log \
+    --log-file-max-size="100" \
+    --network-plugin="cni" \
+    --register-node="true" \
+    --v="2"
+TimeoutStartSec=600
+TimeoutStopSec=60
+Restart=always
+RestartSec=10s
+KillMode=process
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+Alias={{ __k8s_worker_kubelet_service }}.service

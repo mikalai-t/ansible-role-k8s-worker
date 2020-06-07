@@ -1,0 +1,35 @@
+---
+
+- name: "04.1 - template Kubelet kubeconfig manifest"
+  template:
+    src: kubelet.kubeconfig
+    dest: "{{ __k8s_worker_kubelet_kubeconfig_file }}"
+  become: yes
+  notify:
+    - k8s-worker-restart-kubelet-service
+
+- name: "04.2 - template Kubelet config-file"
+  template:
+    src: kubelet-config.yaml
+    dest: "{{ __k8s_worker_kubelet_config_file }}"
+  become: yes
+  notify:
+    - k8s-worker-restart-kubelet-service
+
+- name: "04.3 - template Kubelet unit-file"
+  template:
+    src: kubelet.service
+    dest: "{{ __k8s_worker_kubelet_systemd_unit_file }}"
+  become: yes
+  notify:
+    - k8s-worker-reload-systemd
+    - k8s-worker-restart-kubelet-service
+
+- meta: flush_handlers
+
+- name: "04.4 - make sure Kubelet is started"
+  service:
+    name: "{{ __k8s_worker_kubelet_service }}"
+    state: started
+    enabled: yes
+  become: yes

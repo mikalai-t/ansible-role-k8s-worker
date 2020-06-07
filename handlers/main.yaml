@@ -1,0 +1,17 @@
+---
+
+- name: "k8s-worker-reload-systemd"
+  shell:
+    cmd: "systemctl daemon-reload"
+  args:
+    warn: no
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  become: yes
+
+- name: "k8s-worker-restart-kubelet-service"
+  service:
+    name: "{{ __k8s_worker_kubelet_service }}"
+    state: restarted
+    enabled: yes
+  become: yes

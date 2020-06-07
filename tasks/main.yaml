@@ -1,0 +1,9 @@
+---
+
+- include_tasks: 01-prepare-env.yaml
+
+- include_tasks: 02-install-packages.yaml
+
+- include_tasks: 03-configure-authentication.yaml
+
+- include_tasks: 04-setup-kubelet.yaml

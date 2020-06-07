@@ -1,0 +1,100 @@
+---
+
+- name: "02.1 - make sure necessary system packages are installed"
+  apt:
+    name:
+      - ca-certificates
+      - python3
+      - python3-pip
+      - python3-setuptools
+      - python-pip
+      - python-setuptools
+    state: present
+  become: yes
+
+- name: "02.2 - make sure pip is upgraded to the latest version"
+  pip:
+    name: pip
+    state: latest
+  become: yes
+
+- name: "02.3 - install necessary Python modules"
+  pip:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  loop:
+    - openshift
+    - netaddr
+
+- name: "02.4 - download Kubernetes binaries"
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ __k8s_worker_play_dir }}/{{ item | urlsplit('path') | basename }}"
+  loop:
+    - "{{ __k8s_worker_kubectl_download_url }}"
+    - "{{ __k8s_worker_kubelet_download_url }}"
+    - "{{ __k8s_worker_kube_proxy_download_url }}"
+
+- name: "02.5 - install Kubernetes binaries"
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+    mode: "a+x"
+  become: yes
+  loop:
+    - src: "{{ __k8s_worker_play_dir }}/{{ __k8s_worker_kubectl_download_url | urlsplit('path') | basename }}"
+      dest: "{{ __k8s_worker_kubectl_binary }}"
+    - src: "{{ __k8s_worker_play_dir }}/{{ __k8s_worker_kubelet_download_url | urlsplit('path') | basename }}"
+      dest: "{{ __k8s_worker_kubelet_binary }}"
+    - src: "{{ __k8s_worker_play_dir }}/{{ __k8s_worker_kube_proxy_download_url | urlsplit('path') | basename }}"
+      dest: "{{ __k8s_worker_kube_proxy_binary }}"
+
+- name: "02.6 - download crictl archive"
+  get_url:
+    url: "{{ __k8s_worker_cri_tools_download_url }}"
+    dest: "{{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}.tar.gz"
+  become: yes
+  register: _crictl_archive_download
+
+- name: "02.7 - make sure directory for unpacked crictl files is created"
+  file:
+    path: "{{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}"
+    state: directory
+  become: yes
+
+- name: "02.8 - unpack crictl archive"
+  shell:
+    cmd: "tar -xzf {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}.tar.gz -C {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }} --strip-components=1"
+  args:
+    warn: no
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  become: yes
+  when:
+    - _crictl_archive_download is defined and
+      _crictl_archive_download is changed
+
+- name: "02.9.1 - find all unpacked crictl binaries"
+  find:
+    paths:
+      - "{{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}"
+    recurse: no
+    hidden: yes
+    patterns: "*"
+    use_regex: no
+    file_type: file
+  register: _crictl_binaries
+  become: yes
+
+- name: "02.9.2 - copy crictl binaries to the installation directory"
+  copy:
+    src: "{{ item.path }}"
+    dest: "{{ __k8s_worker_install_dir }}/{{ item.path|basename }}"
+    remote_src: yes
+    mode: "a+x"
+  become: yes
+  loop_control:
+    label: "{{ item.path|basename }}"
+  loop: "{{ _crictl_binaries.files|flatten(1) }}"
