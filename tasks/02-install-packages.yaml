@@ -9,6 +9,7 @@
       - python3-setuptools
       - python-pip
       - python-setuptools
+      - python-netaddr
     state: present
   become: yes
 
@@ -66,7 +67,7 @@
 
 - name: "02.8 - unpack crictl archive"
   shell:
-    cmd: "tar -xzf {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}.tar.gz -C {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }} --strip-components=1"
+    cmd: "tar -xzf {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}.tar.gz -C {{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}"
   args:
     warn: no
   environment:
@@ -80,7 +81,7 @@
   find:
     paths:
       - "{{ __k8s_worker_play_dir }}/crictl-{{ k8s_worker_cri_tools_version }}"
-    recurse: no
+    recurse: yes
     hidden: yes
     patterns: "*"
     use_regex: no
