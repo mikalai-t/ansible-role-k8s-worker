@@ -7,9 +7,9 @@
       - python3
       - python3-pip
       - python3-setuptools
+      - python3-netaddr
       - python-pip
       - python-setuptools
-      - python-netaddr
     state: present
   become: yes
 
