@@ -32,7 +32,7 @@ __k8s_worker_pki_kube_proxy_key_file: "{{ __k8s_worker_pki_dir }}/kube-proxy.key
 
 __k8s_worker_manifests_dir: "{{ __k8s_worker_config_dir }}/manifests"
 __k8s_worker_kubelet_config_file: "{{ __k8s_worker_manifests_dir }}/kubelet-config.yaml"
-__k8s_worker_kube_proxy_config_file: "{{ __k8s_worker_manifests_dir }}/kube-proxy.yaml"
+__k8s_worker_kube_proxy_config_file: "{{ __k8s_worker_manifests_dir }}/kube-proxy-config.yaml"
 
 __k8s_worker_kubernetes_data_dir: /var/lib/kubernetes
 __k8s_worker_kubernetes_socket_dir: /var/run/kubernetes

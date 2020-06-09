@@ -1,0 +1,35 @@
+---
+
+- name: "05.1 - template Kubeprnetes Proxy kubeconfig manifest"
+  template:
+    src: kube-proxy.kubeconfig
+    dest: "{{ __k8s_worker_kube_proxy_kubeconfig_file }}"
+  become: yes
+  notify:
+    - k8s-worker-restart-kube-proxy-service
+
+- name: "05.2 - template Kubernetes Proxy config-file"
+  template:
+    src: kube-proxy-config.yaml
+    dest: "{{ __k8s_worker_kube_proxy_config_file }}"
+  become: yes
+  notify:
+    - k8s-worker-restart-kube-proxy-service
+
+- name: "05.3 - template Kubernetes Proxy unit-file"
+  template:
+    src: kube-proxy.service
+    dest: "{{ __k8s_worker_kube_proxy_systemd_unit_file }}"
+  become: yes
+  notify:
+    - k8s-worker-reload-systemd
+    - k8s-worker-restart-kube-proxy-service
+
+- meta: flush_handlers
+
+- name: "05.4 - make sure Kubernetes Proxy is started"
+  service:
+    name: "{{ __k8s_worker_kube_proxy_service }}"
+    state: started
+    enabled: yes
+  become: yes

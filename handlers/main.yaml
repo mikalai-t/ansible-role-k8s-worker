@@ -15,3 +15,10 @@
     state: restarted
     enabled: yes
   become: yes
+
+- name: "k8s-worker-restart-kube-proxy-service"
+  service:
+    name: "{{ __k8s_worker_kube_proxy_service }}"
+    state: restarted
+    enabled: yes
+  become: yes

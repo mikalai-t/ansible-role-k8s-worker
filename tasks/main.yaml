@@ -7,3 +7,5 @@
 - include_tasks: 03-configure-authentication.yaml
 
 - include_tasks: 04-setup-kubelet.yaml
+
+- include_tasks: 05-setup-kube-proxy.yaml

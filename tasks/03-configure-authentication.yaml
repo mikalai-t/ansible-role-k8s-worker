@@ -21,14 +21,3 @@
     - content: "{{ k8s_worker_kube_proxy_key }}"
       dest: "{{ __k8s_worker_pki_kube_proxy_key_file }}"
       mode: "u=rwX,go-rwx"
-
-- name: "03.2 - template authentication manifests"
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  become: yes
-  loop_control:
-    label: "{{ item.dest }}"
-  loop:
-    - src: kube-proxy.kubeconfig
-      dest: "{{ __k8s_worker_kube_proxy_kubeconfig_file }}"
