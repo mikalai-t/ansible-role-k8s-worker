@@ -1,6 +1,6 @@
 ---
 
-- name: "05.1 - template Kubeprnetes Proxy kubeconfig manifest"
+- name: "05.1 - template Kubernetes Proxy kubeconfig manifest"
   template:
     src: kube-proxy.kubeconfig
     dest: "{{ __k8s_worker_kube_proxy_kubeconfig_file }}"
