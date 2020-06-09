@@ -31,4 +31,4 @@
     label: "{{ item.dest }}"
   loop:
     - src: kube-proxy.kubeconfig
-      dest: "{{ __k8s_worker_kubelet_kubeconfig_file }}"
+      dest: "{{ __k8s_worker_kube_proxy_kubeconfig_file }}"
