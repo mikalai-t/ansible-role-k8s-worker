@@ -5,4 +5,4 @@ kind: KubeProxyConfiguration
 clientConnection:
   kubeconfig: "{{ __k8s_worker_kube_proxy_kubeconfig_file }}"
 mode: "iptables"
-clusterCIDR: "{{ k8s_worker_kubernetes_cluster_pod_cidr }}"
+clusterCIDR: "{{ k8s_worker_kubernetes_cluster_cidr }}"

@@ -4,11 +4,12 @@ k8s_worker_kubernetes_version: v1.15.3
 k8s_worker_cri_tools_version: v1.15.0
 
 k8s_worker_kubernetes_cluster_name: "kubernetes"
-k8s_worker_kubernetes_cluster_pod_cidr: ""
+k8s_worker_kubernetes_cluster_cidr: ""
 k8s_worker_kubernetes_cluster_services_cidr: ""
 
 k8s_worker_node_name: "{{ ansible_hostname }}"
 k8s_worker_node_private_ip: "{{ ansible_default_ipv4.address | default(ansible_all_ipv4_addresses[0]) }}"
+k8s_worker_node_pod_cidr: ""
 
 k8s_worker_api_external_endpoint: "https://127.0.0.1:6443"
 
