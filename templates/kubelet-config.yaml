@@ -2,20 +2,41 @@
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
+# authentication specifies how requests to the Kubelet's server are authenticated
 authentication:
+  # anonymous contains settings related to anonymous authentication
   anonymous:
+    # enabled allows anonymous requests to the kubelet server.
+    # Requests that are not rejected by another authentication method are treated as anonymous requests.
+    # Anonymous requests have a username of system:anonymous, and a group name of system:unauthenticated.
     enabled: false
+  # webhook contains settings related to webhook bearer token authentication
   webhook:
+    # enabled allows bearer token authentication backed by the tokenreviews.authentication.k8s.io API
     enabled: true
+  # x509 contains settings related to x509 client certificate authentication
   x509:
+    # clientCAFile is the path to a PEM-encoded certificate bundle. If set, any request presenting a client certificate
+    # signed by one of the authorities in the bundle is authenticated with a username corresponding to the CommonName,
+    # and groups corresponding to the Organization in the client certificate.
     clientCAFile: "{{ __k8s_worker_pki_ca_cert_file }}"
+# authorization specifies how requests to the Kubelet's server are authorized
 authorization:
+  # mode is the authorization mode to apply to requests to the kubelet server. Valid values are 'AlwaysAllow' and
+  # 'Webhook'.
   mode: Webhook
 clusterDomain: "cluster.local"
 clusterDNS:
   - "{{ k8s_worker_kubernetes_cluster_services_cidr.split('/')[0] | regex_replace('\.[0-9]+$', '.10') }}"
 podCIDR: "{{ k8s_worker_node_pod_cidr }}"
+# ResolverConfig is the resolver configuration file used as the basis for the container DNS resolution configuration.
 resolvConf: "/run/systemd/resolve/resolv.conf"
 runtimeRequestTimeout: "15m"
+# tlsCertFile is the file containing x509 Certificate for HTTPS. (CA cert, if any, concatenated after server cert).
+# If tlsCertFile and `tlsPrivateKeyFile` are not provided, a self-signed certificate and key are generated for the
+# public address and saved to the directory passed to the Kubelet's `--cert-dir` flag.
 tlsCertFile: "{{ __k8s_worker_pki_kubelet_cert_file }}"
+# tlsPrivateKeyFile is the file containing x509 private key matching `tlsCertFile`.
 tlsPrivateKeyFile: "{{ __k8s_worker_pki_kubelet_key_file }}"
+# TLSMinVersion is the minimum TLS version supported.
+tlsMinVersion: VersionTLS12

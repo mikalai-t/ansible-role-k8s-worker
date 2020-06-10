@@ -23,3 +23,17 @@
     - "{{ __k8s_worker_kubernetes_socket_dir }}"
     - "{{ __k8s_worker_kubelet_data_dir }}"
     - "{{ __k8s_worker_kube_proxy_data_dir }}"
+
+- name: "01.3 - setup sysctl variables"
+  sysctl:
+    name: "{{ item.key }}"
+    state: present
+    value: "{{ item.value }}"
+    sysctl_file: "{{ __k8s_worker_sysctl_d_conf_file }}"
+    sysctl_set: yes
+    reload: yes
+  become: yes
+  with_items:
+    # increase limit of the maximum of simultaneously open files as default value for Kubelet is 1,000,000
+    - key: fs.file-max
+      value: 2097152
