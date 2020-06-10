@@ -8,7 +8,7 @@ __k8s_worker_kube_proxy_download_url: "https://storage.googleapis.com/kubernetes
 __k8s_worker_cri_tools_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ k8s_worker_cri_tools_version }}/crictl-{{ k8s_worker_cri_tools_version }}-linux-amd64.tar.gz"
 
 __k8s_worker_sysctl_d_dir: /etc/sysctl.d
-__k8s_worker_sysctl_d_conf_file: "{{ __k8s_sysctl_d_dir }}/99-kubernetes-cri.conf"
+__k8s_worker_sysctl_d_conf_file: "{{ __k8s_worker_sysctl_d_dir }}/99-kubernetes-cri.conf"
 
 __k8s_worker_install_dir: /usr/local/bin
 __k8s_worker_kubectl_binary: "{{ __k8s_worker_install_dir }}/kubectl"
