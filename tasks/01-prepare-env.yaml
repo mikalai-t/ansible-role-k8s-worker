@@ -37,3 +37,19 @@
     # increase limit of the maximum of simultaneously open files as default value for Kubelet is 1,000,000
     - key: fs.file-max
       value: 2097152
+
+- name: "01.4 - update alternatives to be sure iptables doesn't use nf_tables kernel system"
+  alternatives:
+    name: "{{ item.name }}"
+    path: "{{ item.path }}"
+  become: yes
+  loop:
+    - name: iptables
+      path: /usr/sbin/iptables-legacy
+    - name: ip6tables
+      path: /usr/sbin/ip6tables-legacy
+    - name: arptables
+      path: /usr/sbin/arptables-legacy
+    - name: ebtables
+      path: /usr/sbin/ebtables-legacy
+
