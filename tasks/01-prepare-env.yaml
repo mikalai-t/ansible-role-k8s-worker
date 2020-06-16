@@ -48,8 +48,4 @@
       path: /usr/sbin/iptables-legacy
     - name: ip6tables
       path: /usr/sbin/ip6tables-legacy
-    - name: arptables
-      path: /usr/sbin/arptables-legacy
-    - name: ebtables
-      path: /usr/sbin/ebtables-legacy
 
