@@ -19,7 +19,7 @@ authentication:
     # clientCAFile is the path to a PEM-encoded certificate bundle. If set, any request presenting a client certificate
     # signed by one of the authorities in the bundle is authenticated with a username corresponding to the CommonName,
     # and groups corresponding to the Organization in the client certificate.
-    clientCAFile: "{{ __k8s_worker_pki_ca_cert_file }}"
+    clientCAFile: "{{ __k8s_worker_kubernetes_ca_cert_file }}"
 # authorization specifies how requests to the Kubelet's server are authorized
 authorization:
   # mode is the authorization mode to apply to requests to the kubelet server. Valid values are 'AlwaysAllow' and
@@ -35,8 +35,8 @@ runtimeRequestTimeout: "15m"
 # tlsCertFile is the file containing x509 Certificate for HTTPS. (CA cert, if any, concatenated after server cert).
 # If tlsCertFile and `tlsPrivateKeyFile` are not provided, a self-signed certificate and key are generated for the
 # public address and saved to the directory passed to the Kubelet's `--cert-dir` flag.
-tlsCertFile: "{{ __k8s_worker_pki_kubelet_cert_file }}"
+tlsCertFile: "{{ __k8s_worker_kubelet_cert_file }}"
 # tlsPrivateKeyFile is the file containing x509 private key matching `tlsCertFile`.
-tlsPrivateKeyFile: "{{ __k8s_worker_pki_kubelet_key_file }}"
+tlsPrivateKeyFile: "{{ __k8s_worker_kubelet_key_file }}"
 # TLSMinVersion is the minimum TLS version supported.
 tlsMinVersion: VersionTLS12

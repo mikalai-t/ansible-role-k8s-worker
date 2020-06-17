@@ -27,11 +27,11 @@ __k8s_worker_kubelet_kubeconfig_file: "{{ __k8s_worker_config_dir }}/kubelet.kub
 __k8s_worker_kube_proxy_kubeconfig_file: "{{ __k8s_worker_config_dir }}/kube-proxy.kubeconfig"
 
 __k8s_worker_pki_dir: "{{ __k8s_worker_config_dir }}/pki"
-__k8s_worker_pki_ca_cert_file: "{{ __k8s_worker_pki_dir }}/ca.crt"
-__k8s_worker_pki_kubelet_cert_file: "{{ __k8s_worker_pki_dir }}/kubelet.crt"
-__k8s_worker_pki_kubelet_key_file: "{{ __k8s_worker_pki_dir }}/kubelet.key"
-__k8s_worker_pki_kube_proxy_cert_file: "{{ __k8s_worker_pki_dir }}/kube-proxy.crt"
-__k8s_worker_pki_kube_proxy_key_file: "{{ __k8s_worker_pki_dir }}/kube-proxy.key"
+__k8s_worker_kubernetes_ca_cert_file: "{{ __k8s_worker_pki_dir }}/kubernetes-ca.crt"
+__k8s_worker_kubelet_cert_file: "{{ __k8s_worker_pki_dir }}/kubelet.crt"
+__k8s_worker_kubelet_key_file: "{{ __k8s_worker_pki_dir }}/kubelet.key"
+__k8s_worker_kube_proxy_cert_file: "{{ __k8s_worker_pki_dir }}/kube-proxy.crt"
+__k8s_worker_kube_proxy_key_file: "{{ __k8s_worker_pki_dir }}/kube-proxy.key"
 
 __k8s_worker_manifests_dir: "{{ __k8s_worker_config_dir }}/manifests"
 __k8s_worker_kubelet_config_file: "{{ __k8s_worker_manifests_dir }}/kubelet-config.yaml"
@@ -41,4 +41,3 @@ __k8s_worker_kubernetes_data_dir: /var/lib/kubernetes
 __k8s_worker_kubernetes_socket_dir: /var/run/kubernetes
 __k8s_worker_kubelet_data_dir: /var/lib/kubelet
 __k8s_worker_kube_proxy_data_dir: /var/lib/kube-proxy
-

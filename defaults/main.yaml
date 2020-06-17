@@ -15,11 +15,14 @@ k8s_worker_node_pod_cidr: ""
 
 k8s_worker_api_external_endpoint: "https://127.0.0.1:6443"
 
-#######
-# PKI #
-#######
-k8s_worker_ca_cert: ""
+#########
+## PKI ##
+#########
+# kubernetes-ca
+k8s_worker_kubernetes_ca_cert: ""
+# kubelet
 k8s_worker_kubelet_cert: ""
 k8s_worker_kubelet_key: ""
+# kube-proxy
 k8s_worker_kube_proxy_cert: ""
 k8s_worker_kube_proxy_key: ""
