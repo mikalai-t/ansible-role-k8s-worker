@@ -28,7 +28,7 @@ authorization:
 clusterDomain: "cluster.local"
 clusterDNS:
   - "{{ k8s_worker_kubernetes_cluster_services_cidr.split('/')[0] | regex_replace('\\.[0-9]+$', '.10') }}"
-podCIDR: "{{ k8s_worker_node_pod_cidr }}"
+#podCIDR: "{{ k8s_worker_node_pod_cidr }}"
 # ResolverConfig is the resolver configuration file used as the basis for the container DNS resolution configuration.
 resolvConf: "/etc/resolv.conf"
 runtimeRequestTimeout: "15m"
